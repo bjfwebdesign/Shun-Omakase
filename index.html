@@ -14,10 +14,7 @@
   ================================================================
   PLACEHOLDER CONTENT INDEX — everything marked PLACEHOLDER below
   is a stand-in and should be swapped before this goes live:
-    - Hero backdrop (photo/video of counter + chef at work)
-    - 7x tasting-journey course photos
     - Philosophy section parallax photo + optional knife-work loop
-    - 8x seat "view from here" preview photos
     - Footer social links
     - Contact phone / email
   All content marked with an HTML comment reading "PLACEHOLDER".
@@ -135,6 +132,7 @@
     display:flex; align-items:flex-end; overflow:hidden;
   }
   .hero-bg{position:absolute; inset:-4% ; z-index:0; animation:kenburns 26s ease-in-out infinite alternate;}
+  .hero-bg img{width:100%; height:100%; object-fit:cover; display:block;}
   @keyframes kenburns{ from{transform:scale(1);} to{transform:scale(1.09);} }
   .hero-scrim{position:absolute; inset:0; z-index:1; background:linear-gradient(0deg, rgba(20,18,15,0.94) 0%, rgba(20,18,15,0.35) 55%, rgba(20,18,15,0.55) 100%);}
   .hero-content{position:relative; z-index:2; width:100%; padding:0 32px 96px; max-width:1200px; margin:0 auto;}
@@ -187,6 +185,7 @@
   .course-item.active p{display:block;}
   .course-visual-wrap{position:relative; aspect-ratio:4/5; border-radius:2px; overflow:hidden; border:1px solid var(--border);}
   .course-visual{position:absolute; inset:0; opacity:0; transition:opacity .6s ease;}
+  .course-visual img{width:100%; height:100%; object-fit:cover; display:block;}
   .course-visual.active{opacity:1;}
   .course-visual .course-tag{
     position:absolute; bottom:20px; left:20px; font-family:var(--ff-display); font-style:italic; font-size:19px;
@@ -210,7 +209,7 @@
   .signature{margin-top:32px; font-family:var(--ff-display); font-style:italic; color:var(--muted-2); font-size:15px;}
 
   /* ---------- the counter (seat map) ---------- */
-  .counter-wrap{display:grid; grid-template-columns:1fr 0.9fr; gap:70px; align-items:center;}
+  .counter-wrap{display:flex; flex-direction:column;}
   .counter-bar-label{font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--muted-2); text-align:center; margin-bottom:14px;}
   .counter-station{
     height:26px; border-radius:2px; margin-bottom:34px;
@@ -226,19 +225,38 @@
   .seat:hover{border-color:var(--accent-2); color:var(--text); transform:translateY(-3px);}
   .seat.selected{background:var(--accent); border-color:var(--accent); color:var(--text);}
   .counter-caption{margin-top:20px; font-size:12px; color:var(--muted-2); text-align:center;}
-  .seat-preview{position:relative; aspect-ratio:4/5; border-radius:2px; overflow:hidden; border:1px solid var(--border);}
-  .seat-preview-img{position:absolute; inset:0; transition:opacity .35s ease;}
-  .seat-preview-info{
-    position:absolute; left:0; right:0; bottom:0; padding:22px 22px 20px;
-    background:linear-gradient(0deg, rgba(20,18,15,0.92), transparent);
-  }
-  .seat-preview-info .seat-num{font-family:var(--ff-display); font-size:13px; color:var(--accent-2); letter-spacing:0.1em;}
-  .seat-preview-info p{margin-top:6px; font-size:14px; color:var(--text);}
   .seat-cta{margin-top:26px; display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
   .seat-cta .hint{font-size:12px; color:var(--muted-2);}
+
+  /* floor plan + interactive seat markers, sits under the counter bar */
+  .floor-plan-panel{margin-top:56px; max-width:920px; margin-left:auto; margin-right:auto; width:100%;}
+  .floor-plan-wrap{
+    position:relative; width:100%; aspect-ratio:1536/1024; border-radius:2px; overflow:hidden;
+    border:1px solid var(--border); background:var(--surface);
+  }
+  .floor-plan-img{width:100%; height:100%; object-fit:contain;}
+  .floor-marker{
+    position:absolute; transform:translate(-50%,-50%);
+    width:30px; height:30px; border-radius:50%;
+    background:rgba(20,18,15,0.6); border:1px solid var(--border-strong); color:var(--text);
+    font-family:var(--ff-display); font-size:13px;
+    display:flex; align-items:center; justify-content:center;
+    transition:all .3s ease; backdrop-filter:blur(2px);
+  }
+  .floor-marker:hover, .floor-marker.active{
+    background:var(--accent); border-color:var(--accent-2);
+    box-shadow:0 0 0 7px rgba(140,47,47,0.22); transform:translate(-50%,-50%) scale(1.12);
+  }
+  .floor-marker.selected{background:var(--accent-2); border-color:var(--accent-2);}
+  .floor-plan-caption{
+    margin-top:20px; padding:18px 22px; background:var(--surface); border:1px solid var(--border); border-radius:2px;
+    text-align:center;
+  }
+  .floor-plan-caption .seat-num{font-family:var(--ff-display); font-size:13px; color:var(--accent-2); letter-spacing:0.1em;}
+  .floor-plan-caption p{margin-top:6px; font-size:14px; color:var(--text);}
   @media(max-width:900px){
-    .counter-wrap{grid-template-columns:1fr;}
     .seat{font-size:13px;}
+    .floor-marker{width:24px; height:24px; font-size:11px;}
   }
 
   /* ---------- reservations ---------- */
@@ -334,8 +352,7 @@
 
   <!-- ========== HERO ========== -->
   <section class="hero" id="top">
-    <!-- PLACEHOLDER: full-bleed photo or short looping video of the counter / chef at work -->
-    <div class="hero-bg ph" data-ph="PLACEHOLDER — hero photo/video of counter"></div>
+    <div class="hero-bg"><img src="images/hero.jpg" alt="Chef plating a course at the omakase counter" loading="eager"></div>
     <div class="hero-scrim"></div>
     <div class="hero-content">
       <svg class="hero-mark" viewBox="0 0 120 120" fill="none">
@@ -389,14 +406,13 @@
           </li>
         </ul>
         <div class="course-visual-wrap">
-          <!-- PLACEHOLDER: 7x course photography, one per course above -->
-          <div class="course-visual ph active" data-index="0" data-ph="PLACEHOLDER — Hotate"><span class="course-tag">Hotate</span></div>
-          <div class="course-visual ph" data-index="1" data-ph="PLACEHOLDER — Aji"><span class="course-tag">Aji</span></div>
-          <div class="course-visual ph" data-index="2" data-ph="PLACEHOLDER — Chutoro"><span class="course-tag">Chutoro</span></div>
-          <div class="course-visual ph" data-index="3" data-ph="PLACEHOLDER — Kinmedai"><span class="course-tag">Kinmedai</span></div>
-          <div class="course-visual ph" data-index="4" data-ph="PLACEHOLDER — Uni"><span class="course-tag">Uni</span></div>
-          <div class="course-visual ph" data-index="5" data-ph="PLACEHOLDER — O-toro"><span class="course-tag">O-toro</span></div>
-          <div class="course-visual ph" data-index="6" data-ph="PLACEHOLDER — Tamagoyaki"><span class="course-tag">Tamagoyaki</span></div>
+          <div class="course-visual active" data-index="0"><img src="images/courses/01-hotate.jpg" alt="Hotate scallop course"><span class="course-tag">Hotate</span></div>
+          <div class="course-visual" data-index="1"><img src="images/courses/02-aji.jpg" alt="Aji horse mackerel course"><span class="course-tag">Aji</span></div>
+          <div class="course-visual" data-index="2"><img src="images/courses/03-chutoro.jpg" alt="Chutoro medium fatty tuna course"><span class="course-tag">Chutoro</span></div>
+          <div class="course-visual" data-index="3"><img src="images/courses/04-kinmedai.jpg" alt="Kinmedai golden eye snapper course"><span class="course-tag">Kinmedai</span></div>
+          <div class="course-visual" data-index="4"><img src="images/courses/05-uni.jpg" alt="Uni sea urchin course"><span class="course-tag">Uni</span></div>
+          <div class="course-visual" data-index="5"><img src="images/courses/06-otoro.jpg" alt="O-toro fatty tuna course"><span class="course-tag">O-toro</span></div>
+          <div class="course-visual" data-index="6"><img src="images/courses/07-tamagoyaki.jpg" alt="Tamagoyaki sweet egg omelette course"><span class="course-tag">Tamagoyaki</span></div>
         </div>
       </div>
     </div>
@@ -422,23 +438,31 @@
       <div class="section-head reveal">
         <span class="eyebrow">The Counter</span>
         <h2>Eight seats. Pick your view.</h2>
-        <p class="lede">Every seat faces the counter differently. Hover to see what you'd see — click to start your reservation from there.</p>
+        <p class="lede">Every seat faces the counter differently. Hover a seat — or find it on the floor plan below — then click to start your reservation from there.</p>
       </div>
       <div class="counter-wrap reveal">
-        <div>
-          <div class="counter-bar-label">Chef's Station</div>
-          <div class="counter-station"></div>
-          <div class="seat-row" id="seatRow"></div>
-          <div class="counter-caption">Hinoki cypress counter — eight seats, no more.</div>
-          <div class="seat-cta">
-            <a href="#reservations" class="btn btn-primary" id="counterCta">Reserve This Seat</a>
-            <span class="hint" id="counterHint">Hover a seat to preview it.</span>
-          </div>
+        <div class="counter-bar-label">Chef's Station</div>
+        <div class="counter-station"></div>
+        <div class="seat-row" id="seatRow"></div>
+        <div class="counter-caption">Hinoki cypress counter — eight seats, no more.</div>
+        <div class="seat-cta">
+          <a href="#reservations" class="btn btn-primary" id="counterCta">Reserve This Seat</a>
+          <span class="hint" id="counterHint">Hover a seat to preview it.</span>
         </div>
-        <div class="seat-preview">
-          <!-- PLACEHOLDER: 8x "view from seat N" photography, swapped by seat-map.js below -->
-          <div class="seat-preview-img ph" id="seatPreviewImg" data-ph="PLACEHOLDER — view from seat"></div>
-          <div class="seat-preview-info">
+
+        <div class="floor-plan-panel">
+          <div class="floor-plan-wrap" id="floorPlanWrap">
+            <img class="floor-plan-img" src="images/floor-plan.png" alt="Shun floor plan — open kitchen, eight-seat counter and eight numbered guest seats">
+            <button class="floor-marker" type="button" data-seat="1" style="left:27.98%; top:47.99%;">1</button>
+            <button class="floor-marker" type="button" data-seat="2" style="left:34.20%; top:51.34%;">2</button>
+            <button class="floor-marker" type="button" data-seat="3" style="left:40.04%; top:53.35%;">3</button>
+            <button class="floor-marker" type="button" data-seat="4" style="left:46.48%; top:54.13%;">4</button>
+            <button class="floor-marker" type="button" data-seat="5" style="left:52.70%; top:53.79%;">5</button>
+            <button class="floor-marker" type="button" data-seat="6" style="left:59.81%; top:52.46%;">6</button>
+            <button class="floor-marker" type="button" data-seat="7" style="left:66.47%; top:50.22%;">7</button>
+            <button class="floor-marker" type="button" data-seat="8" style="left:72.54%; top:47.66%;">8</button>
+          </div>
+          <div class="floor-plan-caption">
             <div class="seat-num" id="seatPreviewNum">SEAT 4</div>
             <p id="seatPreviewText">Center — the widest view of the whole counter.</p>
           </div>
@@ -641,7 +665,14 @@
     seatRow.appendChild(btn);
   });
 
-  const seatPreviewImg = document.getElementById('seatPreviewImg');
+  const floorMarkers = Array.from(document.querySelectorAll('.floor-marker'));
+  floorMarkers.forEach(marker=>{
+    const seat = seatData[Number(marker.dataset.seat)-1];
+    marker.addEventListener('mouseenter', ()=> previewSeat(seat));
+    marker.addEventListener('focus', ()=> previewSeat(seat));
+    marker.addEventListener('click', ()=> selectSeat(seat));
+  });
+
   const seatPreviewNum = document.getElementById('seatPreviewNum');
   const seatPreviewText = document.getElementById('seatPreviewText');
   const counterHint = document.getElementById('counterHint');
@@ -649,11 +680,12 @@
   function previewSeat(seat){
     seatPreviewNum.textContent = 'SEAT ' + seat.n;
     seatPreviewText.textContent = seat.desc;
-    seatPreviewImg.setAttribute('data-ph', 'PLACEHOLDER — view from seat ' + seat.n);
+    floorMarkers.forEach(m=> m.classList.toggle('active', Number(m.dataset.seat)===seat.n));
   }
   function selectSeat(seat){
     selectedSeat = seat.n;
     Array.from(seatRow.children).forEach(b=> b.classList.toggle('selected', Number(b.dataset.seat)===seat.n));
+    floorMarkers.forEach(m=> m.classList.toggle('selected', Number(m.dataset.seat)===seat.n));
     counterHint.textContent = 'Seat ' + seat.n + ' selected — continue to reserve it.';
     renderResSeatGrid();
   }
